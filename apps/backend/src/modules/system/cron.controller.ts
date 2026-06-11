@@ -1,9 +1,7 @@
 import { Controller, Get, Post, Param, Body, UseGuards } from '@nestjs/common';
-import { TenantGuard } from '../../core/tenant.guard';
 import { QueueRegistry, QUEUE_NAMES } from '../../core/queue.registry';
 
 @Controller('cron')
-@UseGuards(TenantGuard)
 export class CronController {
   constructor(private queueRegistry: QueueRegistry) {}
 

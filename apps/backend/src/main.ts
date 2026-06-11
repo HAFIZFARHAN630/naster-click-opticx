@@ -1,3 +1,4 @@
+import 'ws'; // Polyfill for Node.js < 22
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { ConfigModule } from '@nestjs/config';
@@ -31,6 +32,7 @@ import { NetworkPollerService } from './queues/network-poller.processor';
     TenantGuard,
     EncryptionService,
     QueueRegistry,
+    HardwareFactory,
     MassRenewProcessor,
     NetworkPollerService,
     TelemetryGateway,

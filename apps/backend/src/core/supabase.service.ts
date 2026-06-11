@@ -1,5 +1,9 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { Injectable, Logger } from '@nestjs/common';
+import WebSocket from 'ws';
+
+// Configure WebSocket globally for Supabase
+(global as any).WebSocket = WebSocket;
 
 @Injectable()
 export class SupabaseService {
@@ -28,11 +32,15 @@ export class SupabaseService {
   }
 
   async setTenantContext(tenantId: string, branchId?: string | null, userRole?: string) {
-    await this.adminClient.rpc('set_tenant_context', {
-      p_tenant_id: tenantId,
-      p_branch_id: branchId || null,
-      p_user_role: userRole
-    });
+    try {
+      await this.adminClient.rpc('set_tenant_context', {
+        p_tenant_id: tenantId,
+        p_branch_id: branchId || null,
+        p_user_role: userRole
+      });
+    } catch (error) {
+      this.logger.error(`Tenant context error: ${error}`);
+    }
   }
 }
 

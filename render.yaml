@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: isp-platform-backend
+    env: docker
+    dockerfilePath: ./apps/backend/Dockerfile
+    dockerContext: ./apps/backend
+    region: oregon
+    plan: free
+    envVars:
+      - key: PORT
+        value: "3000"
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_ANON_KEY
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: REDIS_HOST
+        sync: false
+      - key: REDIS_PORT
+        value: "6379"
+      - key: HW_ENCRYPTION_KEY
+        sync: false
