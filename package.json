@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "Enterprise-Grade Multi-Tenant ISP Platform",
   "scripts": {
-    "start": "nest start",
-    "start:dev": "nest start --watch",
-    "build": "nest build",
+    "start": "cd apps/backend && npm start",
+    "start:dev": "cd apps/backend && npm run start:dev",
+    "build": "cd apps/backend && npm install && npm run build",
     "lint": "eslint . --ext .ts",
     "test": "jest"
   },
@@ -17,8 +17,7 @@
     "@supabase/supabase-js": "^2.40.0",
     "bullmq": "^4.10.0",
     "cloudinary": "^2.0.0",
-    "crypto": "^1.0.1",
-    "reflect-metadata": "^5.0.0",
+    "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.0"
   },
   "devDependencies": {
