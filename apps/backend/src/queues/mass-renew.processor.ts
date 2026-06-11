@@ -15,6 +15,9 @@ export class MassRenewProcessor {
     private hardwareFactory: HardwareFactory
   ) {
     this.processor = this.queueRegistry.createWorker(QUEUE_NAMES.MASS_RENEW, this.processJob.bind(this));
+    if (!this.processor) {
+      this.logger.warn('Redis unavailable, mass renew worker disabled');
+    }
   }
 
   private async processJob(job: Job): Promise<void> {

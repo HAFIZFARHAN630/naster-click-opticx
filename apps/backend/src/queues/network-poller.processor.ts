@@ -16,8 +16,12 @@ export class NetworkPollerService implements OnModuleInit {
 
   async onModuleInit() {
     const queue = this.queueRegistry.getQueue(QUEUE_NAMES.NETWORK_POLLER);
-    this.job = await queue.add('poll-devices', {}, { removeOnComplete: true });
-    this.logger.log('Network poller scheduled (manual trigger)');
+    if (queue) {
+      this.job = await queue.add('poll-devices', {}, { removeOnComplete: true });
+      this.logger.log('Network poller scheduled (manual trigger)');
+    } else {
+      this.logger.warn('Redis unavailable, network poller disabled');
+    }
   }
 
   private async pollAllDevices() {

@@ -3,11 +3,16 @@ import { Queue, Worker } from 'bullmq';
 export class QueueRegistry {
   private static instance: QueueRegistry;
   private queues: Map<string, Queue> = new Map();
-  private redisConnection = {
+  private _redisConnection: any = {
     host: process.env.REDIS_HOST || 'localhost',
     port: parseInt(process.env.REDIS_PORT || '6379'),
     password: process.env.REDIS_PASSWORD || undefined,
-    username: process.env.REDIS_USERNAME || undefined
+    username: process.env.REDIS_USERNAME || undefined,
+    connectTimeout: 5000,
+    retryStrategy: (times: number) => {
+      if (times > 3) return null;
+      return Math.min(times * 100);
+    }
   };
 
   static getInstance(): QueueRegistry {
@@ -17,19 +22,36 @@ export class QueueRegistry {
     return QueueRegistry.instance;
   }
 
-  getQueue<T = any>(name: string): Queue<T> {
+  private get redisConnection() {
+    return this._redisConnection;
+  }
+
+  getQueue<T = any>(name: string): Queue<T> | null {
     if (!this.queues.has(name)) {
-      this.queues.set(name, new Queue<T>(name, { connection: this.redisConnection }));
+      try {
+        this.queues.set(name, new Queue<T>(name, { 
+          connection: this.redisConnection,
+          defaultJobOptions: { attempts: 3, backoff: { type: 'exponential', delay: 1000 } }
+        }));
+      } catch (e) {
+        console.warn(`Queue ${name} creation skipped, Redis unavailable`);
+        return null;
+      }
     }
     return this.queues.get(name)!;
   }
 
   createWorker<T = any>(name: string, processor: (job: any) => Promise<any>) {
-    return new Worker<T>(name, processor, { connection: this.redisConnection });
+    try {
+      return new Worker<T>(name, processor, { connection: this.redisConnection });
+    } catch (e) {
+      console.warn(`Worker ${name} creation skipped, Redis unavailable`);
+      return null as any;
+    }
   }
 
   getConnection() {
-    return this.redisConnection;
+    return this._redisConnection;
   }
 }
 
