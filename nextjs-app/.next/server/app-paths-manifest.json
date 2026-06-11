@@ -1,1 +1,23 @@
-{}
+{
+  "/api/admin-branch/login/route": "app/api/admin-branch/login/route.js",
+  "/api/admin-branch/logout/route": "app/api/admin-branch/logout/route.js",
+  "/api/field-agent/login/route": "app/api/field-agent/login/route.js",
+  "/api/field-agent/logout/route": "app/api/field-agent/logout/route.js",
+  "/api/reseller-dealer/login/route": "app/api/reseller-dealer/login/route.js",
+  "/api/reseller-dealer/logout/route": "app/api/reseller-dealer/logout/route.js",
+  "/api/super-admin/login/route": "app/api/super-admin/login/route.js",
+  "/api/super-admin/logout/route": "app/api/super-admin/logout/route.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/admin-branch/dashboard/page": "app/admin-branch/dashboard/page.js",
+  "/field-agent/dashboard/page": "app/field-agent/dashboard/page.js",
+  "/admin-branch/page": "app/admin-branch/page.js",
+  "/portals/page": "app/portals/page.js",
+  "/field-agent/page": "app/field-agent/page.js",
+  "/page": "app/page.js",
+  "/reseller-dealer/page": "app/reseller-dealer/page.js",
+  "/subscriber/page": "app/subscriber/page.js",
+  "/reseller-dealer/dashboard/page": "app/reseller-dealer/dashboard/page.js",
+  "/subscriber/login/page": "app/subscriber/login/page.js",
+  "/super-admin/page": "app/super-admin/page.js",
+  "/super-admin/dashboard/page": "app/super-admin/dashboard/page.js"
+}
